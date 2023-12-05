@@ -20,7 +20,8 @@ export default function NewTodo() {
   const addTodo = async() => {
     try{
       const todo ={
-        newTodo
+        newTodo : newTodo , 
+        status : "incompleted"
       }
       const response = await axios.post('/api/create' ,todo );
       console.log("From created data",response.data.todo);
@@ -38,10 +39,9 @@ export default function NewTodo() {
   const deleteTodo =async(id)=>{
       try {
         const remaningTodos = todoList.filter((todo)=> todo._id !== id);
-        console.log(remaningTodos);
         setTodoList(remaningTodos);
         const response = await axios.delete(`/api/delete/${id}`);
-        console.log(response);
+        console.log(response , "delete from database");
         
       } catch (error) {
         
@@ -71,7 +71,7 @@ export default function NewTodo() {
         {todoList.map((todo) => (
           <li
             key={todo._id}
-            className="flex text-black items-center justify-between border-b py-2"
+            className={`${todo.status !== 'incompleted' ?  "bg-green-200"  :'bg-red-300' }   flex text-black items-center justify-between border-b py-2`}
           >
             <span>{todo.text}</span>
             <div>
